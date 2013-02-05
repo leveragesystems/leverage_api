@@ -24,14 +24,24 @@ namespace LeverageApi.Controllers.version1 {
     }
 
     // GET api/ToDoList/5
-    public ToDoList GetToDoList(int id) {
+    public List<Resource> GetToDoList(int id) {
       //ToDoList todolist = db.ToDoLists.Find(id);
       //if (todolist == null) {
       //  throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
       //}
-
-      //return todolist;
-      return new ToDoList();
+      var objectType = new ToDoList().GetType();
+      var properties = objectType.GetProperties();
+      var resourceList = new List<Resource>();
+      foreach (var property in properties) {
+        var resource = new Resource();
+        resource.Name = property.Name;
+        resource.Value = property.PropertyType.Name;
+        if (property.GetCustomAttributes(true).Length > 0) {
+          resource.Required = ((DbLayer.Models.Require)(property.GetCustomAttributes(true)[0])).Required;
+        }
+        resourceList.Add(resource);
+      }
+      return resourceList;
     }
 
     // PUT api/ToDoList/5

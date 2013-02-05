@@ -12,7 +12,7 @@ using DbLayer.Models;
 using DbLayer.Context;
 
 namespace LeverageApi.Controllers.version1 {
-  public class ToDoListController : ApiController {
+  public class ToDoListsController : ApiController {
     private SQLContext db = new SQLContext();
 
     //public dynamic GetToDoLists_Resource() {
@@ -23,25 +23,14 @@ namespace LeverageApi.Controllers.version1 {
       return db.ToDoLists.AsEnumerable();
     }
 
+   
     // GET api/ToDoList/5
-    public List<Resource> GetToDoList(int id) {
-      //ToDoList todolist = db.ToDoLists.Find(id);
-      //if (todolist == null) {
-      //  throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-      //}
-      var objectType = new ToDoList().GetType();
-      var properties = objectType.GetProperties();
-      var resourceList = new List<Resource>();
-      foreach (var property in properties) {
-        var resource = new Resource();
-        resource.Name = property.Name;
-        resource.Value = property.PropertyType.Name;
-        if (property.GetCustomAttributes(true).Length > 0) {
-          resource.Required = ((DbLayer.Models.Require)(property.GetCustomAttributes(true)[0])).Required;
-        }
-        resourceList.Add(resource);
+    public ToDoList GetToDoList(int id) {
+      ToDoList todolist = db.ToDoLists.Find(id);
+      if (todolist == null) {
+        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
       }
-      return resourceList;
+      return todolist;
     }
 
     // PUT api/ToDoList/5

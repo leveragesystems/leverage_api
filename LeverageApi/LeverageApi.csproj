@@ -115,9 +115,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\version1\HomeController.cs" />
     <Compile Include="Controllers\version1\ToDoListsController.cs" />
     <Compile Include="Controllers\version2\CustomersController.cs" />
+    <Compile Include="Controllers\version2\ToDoListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

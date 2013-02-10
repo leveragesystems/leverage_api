@@ -25,12 +25,23 @@ namespace LeverageApi {
         resource.Name = property.Name;
         resource.Value = property.PropertyType.Name;
         if (property.GetCustomAttributes(true).Length > 0) {
-          resource.Required = ((DbLayer.Models.Require)(property.GetCustomAttributes(true)[0])).Required;
+          List<Validation> validationList = new List<Validation>();
+          foreach (var item in property.GetCustomAttributes(true)) {
+            Validation validation = new Validation();
+            validation.Reg = ((Validate)(item)).Regex;
+            validation.Message = ((Validate)(item)).Message;
+            validationList.Add(validation);
+            
+          }
+          resource.Validations = validationList;
+//resource.Required = ((DbLayer.Models.Require)(property.GetCustomAttributes(true)[0])).Required;
         }
         resourceList.Add(resource);
       }
       return resourceList;
     }
+
+
 
   }
 }

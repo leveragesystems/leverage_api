@@ -10,7 +10,11 @@ namespace LeverageApi.Controllers.version1 {
   public class ResourcesController : ApiController {
 
     public List<Resource> GetResources(string ResourceName) {
-      dynamic typeObject = ResourceName;
+      
+      //ruby.Runtime.LoadAssembly(typeof(MyObject).Assembly);
+      //var obj = ruby.Execute<IMyInterface>(code);
+      //obj.DoStuff(new MyObject());
+      //dynamic typeObject =  eval.Evaluate(ResourceName);
       var objectType = new ToDoList().GetType();
       var properties = objectType.GetProperties();
       var resourceList = new List<Resource>();
@@ -27,4 +31,17 @@ namespace LeverageApi.Controllers.version1 {
     }
 
   }
+  // A simple extension class with methods to 
+  // invoke Evaluator methods on a string
+  //public static class EvaluatorExtensions {
+  //  public static T Eval<T>(this string code) where T : class {
+  //    return Evaluator.Evaluate(code) as T;
+  //  }
+
+  //  public static void Run(this string code, bool repQuotes = false) {
+  //    var run = repQuotes ?
+  //                code.Replace("'", "\"") : code;
+  //    Evaluator.Run(run);
+  //  }
+  //}
 }

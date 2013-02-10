@@ -19,8 +19,8 @@ namespace LeverageApi {
       GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
       GlobalConfiguration.Configuration.Formatters[0].SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
 
-			//GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
-				//																									new RouteVersionedControllerSelector(GlobalConfiguration.Configuration));
+			GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
+																												new RouteVersionedControllerSelector(GlobalConfiguration.Configuration));
 
 			AreaRegistration.RegisterAllAreas();
 

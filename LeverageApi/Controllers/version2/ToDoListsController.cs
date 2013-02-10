@@ -19,7 +19,7 @@ namespace LeverageApi.Controllers.version2 {
     public List<Resource> GetResources(string Resource) {
       RenderResource<ToDoList> resource = new RenderResource<ToDoList>(new ToDoList());
       // Call the Write method.
-      return resource.GetResource();
+      return new List<Resource>(); //resource.GetResource();
     }
 
     // GET api/ToDoLists

@@ -24,19 +24,9 @@ namespace LeverageApi.Controllers.version1 {
     }
 
     public List<Resource> GetResources(string Resource) {
-      var objectType = new ToDoList().GetType();
-      var properties = objectType.GetProperties();
-      var resourceList = new List<Resource>();
-      foreach (var property in properties) {
-        var resource = new Resource();
-        resource.Name = property.Name;
-        resource.Value = property.PropertyType.Name;
-        if (property.GetCustomAttributes(true).Length > 0) {
-          resource.Required = ((DbLayer.Models.Require)(property.GetCustomAttributes(true)[0])).Required;
-        }
-        resourceList.Add(resource);
-      }
-      return resourceList;
+      RenderResource<ToDoList> test1 = new RenderResource<ToDoList>(new ToDoList());
+      // Call the Write method.
+      return test1.GetResource();
     }
 
 

@@ -11,35 +11,33 @@ using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Context;
 
-namespace LeverageApi.Controllers.version1 {
+namespace LeverageApi.Controllers.version2 {
   public class ToDoListsController : ApiController {
     private SQLContext db = new SQLContext();
 
-    //public dynamic GetToDoLists_Resource() {
-    //  return new ToDoList();
-    //}
-    // GET api/ToDoList
-    public IEnumerable<ToDoList> GetToDoLists() {
-      return db.ToDoLists.AsEnumerable();
-    }
-
+    // GET Resource
     public List<Resource> GetResources(string Resource) {
       RenderResource<ToDoList> resource = new RenderResource<ToDoList>(new ToDoList());
       // Call the Write method.
       return resource.GetResource();
     }
 
+    // GET api/ToDoLists
+    public IEnumerable<ToDoList> GetToDoLists() {
+      return db.ToDoLists.AsEnumerable();
+    }
 
-    // GET api/ToDoList/5
+    // GET api/ToDoLists/5
     public ToDoList GetToDoList(int id) {
       ToDoList todolist = db.ToDoLists.Find(id);
       if (todolist == null) {
         throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
       }
+
       return todolist;
     }
 
-    // PUT api/ToDoList/5
+    // PUT api/ToDoLists/5
     public HttpResponseMessage PutToDoList(int id, ToDoList todolist) {
       if (ModelState.IsValid && id == todolist.ToDoListId) {
         db.Entry(todolist).State = EntityState.Modified;
@@ -56,7 +54,7 @@ namespace LeverageApi.Controllers.version1 {
       }
     }
 
-    // POST api/ToDoList
+    // POST api/ToDoLists
     public HttpResponseMessage PostToDoList(ToDoList todolist) {
       if (ModelState.IsValid) {
         db.ToDoLists.Add(todolist);
@@ -70,7 +68,7 @@ namespace LeverageApi.Controllers.version1 {
       }
     }
 
-    // DELETE api/ToDoList/5
+    // DELETE api/ToDoLists/5
     public HttpResponseMessage DeleteToDoList(int id) {
       ToDoList todolist = db.ToDoLists.Find(id);
       if (todolist == null) {

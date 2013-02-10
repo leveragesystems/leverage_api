@@ -1,6 +1,8 @@
+/packages/*.*
 /packages/*
 /LeverageApi/bin/DbLayer.exe
 /LeverageApi/bin/DbLayer.pdb
 /LeverageApi/bin/EntityFramework.dll
 /LeverageApi/bin/EntityFramework.xml
+/LeverageApi/obj/*.*
 /LeverageApi/obj/*

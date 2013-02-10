@@ -116,8 +116,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\version1\HomeController.cs" />
-    <Compile Include="Controllers\version1\ResourcesController.cs" />
     <Compile Include="Controllers\version1\ToDoListsController.cs" />
+    <Compile Include="Controllers\version2\CustomersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -127,6 +127,7 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="CodeTemplates\AddController\ApiControllerWithContext.tt" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -149,6 +150,9 @@
       <Project>{d2716179-5cd6-4dd4-a27b-1c3743dd6ec3}</Project>
       <Name>DbLayer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

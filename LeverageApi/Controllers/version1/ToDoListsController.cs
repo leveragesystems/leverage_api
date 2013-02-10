@@ -24,9 +24,9 @@ namespace LeverageApi.Controllers.version1 {
     }
 
     public List<Resource> GetResources(string Resource) {
-      RenderResource<ToDoList> test1 = new RenderResource<ToDoList>(new ToDoList());
+      RenderResource<ToDoList> resource = new RenderResource<ToDoList>(new ToDoList());
       // Call the Write method.
-      return test1.GetResource();
+      return resource.GetResource();
     }
 
 

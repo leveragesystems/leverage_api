@@ -7,7 +7,9 @@ using DbLayer.Models;
 
 namespace LeverageApi {
   public class RenderResource<T> {
+    
     T value;
+
     public RenderResource(T t) {
         // The field has the same type as the parameter.
         this.value = t;

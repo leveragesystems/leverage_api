@@ -11,9 +11,26 @@ namespace LeverageApi.Controllers.version1
 {
     public class PersonController : ApiController
     {
-      MongoRepository<Person,int> db = new MongoRepository<Person, int>() {
+      MongoRepository<Person, Guid> db = new MongoRepository<Person, Guid>() {
         ConnectionString = "mongodb://localhost/database"
       };
+
+      // GET api/ToDoList
+      public IEnumerable<Person> GetPeople() {
+        return db.Get();
+      }
+
+      public List<Resource> GetResources(string Resource) {
+        RenderResource<Person> resource = new RenderResource<Person>(new Person());
+        // Call the Write method.
+        return resource.GetResource();
+      }
+
+
+      // GET api/ToDoList/5
+      public Person GetPerson(Guid id) {
+        return db.Get(id);
+      }
 
       public HttpResponseMessage PostPerson(Person model) {
         if (ModelState.IsValid) {
@@ -27,13 +44,13 @@ namespace LeverageApi.Controllers.version1
         }
       }
 
-      public HttpResponseMessage DeletePerson(int person_id) {
-        
-        var dbModel = db.SingleOrDefault(p => p.Id == person_id);
+      public HttpResponseMessage DeletePerson(Guid id) {
+        var dbModel = db.Get(id);
+        //var dbModel = db.SingleOrDefault(p => p.Id == id);
         if (dbModel == null) {
           return Request.CreateResponse(HttpStatusCode.NotFound);
         }
-        db.Delete(person_id);
+        db.Delete(dbModel);
 
         return Request.CreateResponse(HttpStatusCode.OK, dbModel);
       }

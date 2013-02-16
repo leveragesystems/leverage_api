@@ -119,6 +119,7 @@
     <Compile Include="Controllers\version1\PersonController.cs" />
     <Compile Include="Controllers\version1\ToDoListsController.cs" />
     <Compile Include="Controllers\version2\CustomersController.cs" />
+    <Compile Include="Controllers\version2\Default1Controller.cs" />
     <Compile Include="Controllers\version2\ToDoListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -157,6 +158,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="CodeTemplates\AddController\ApiControllerMongo.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CodeTemplates\AddController\RepositoryController.tt">
+      <Parameters>&lt;%3fxml version="1.0" encoding="utf-16"%3f&gt;
+&lt;ArrayOfParameterStorage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Parameters>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -22,14 +22,14 @@ namespace LeverageApi {
       var resourceList = new List<Resource>();
       foreach (var property in properties) {
         var resource = new Resource();
-        resource.Name = property.Name;
-        resource.Value = property.PropertyType.Name;
+        resource.Property = property.Name;
+        resource.Type = property.PropertyType.Name;
         if (property.GetCustomAttributes(true).Length > 0) {
           List<Validation> validationList = new List<Validation>();
           foreach (var item in property.GetCustomAttributes(true)) {
             Validation validation = new Validation();
-            validation.Reg = ((Validate)(item)).Regex;
-            validation.Message = ((Validate)(item)).Message;
+            validation.Reg = ((ValidateAttribute)(item)).Regex;
+            validation.Message = ((ValidateAttribute)(item)).Message;
             validationList.Add(validation);
             
           }

@@ -10,85 +10,54 @@ using System.Web;
 using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Context;
+using DbLayer.Repositories;
 
 namespace LeverageApi.Controllers.version2 {
-  public class ToDoListsController : ApiController {
-    private SQLContext db = new SQLContext();
+	public class ToDoListsController : ApiController {
+
+		MongoRepository<ToDoList, Guid> db = new MongoRepository<ToDoList, Guid>() {
+			ConnectionString = "mongodb://localhost/database"
+		};
 
     // GET Resource
     public List<Resource> GetResources(string Resource) {
       RenderResource<ToDoList> resource = new RenderResource<ToDoList>(new ToDoList());
       // Call the Write method.
-      return new List<Resource>(); //resource.GetResource();
+      return resource.GetResource();
     }
 
-    // GET api/ToDoLists
-    public IEnumerable<ToDoList> GetToDoLists() {
-      return db.ToDoLists.AsEnumerable();
-    }
+      // GET api/ToDoList
+      public IEnumerable<ToDoList> GetToDoLists() {
+        return db.Get();
+      }
+		
 
-    // GET api/ToDoLists/5
-    public ToDoList GetToDoList(int id) {
-      ToDoList todolist = db.ToDoLists.Find(id);
-      if (todolist == null) {
-        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+      // GET api/ToDoList/5
+			public ToDoList GetToDoList(Guid id) {
+        return db.Get(id);
       }
 
-      return todolist;
-    }
+			public HttpResponseMessage PostToDoList(ToDoList model) {
+        if (ModelState.IsValid) {
+          db.Create(model);
 
-    // PUT api/ToDoLists/5
-    public HttpResponseMessage PutToDoList(int id, ToDoList todolist) {
-      if (ModelState.IsValid && id == todolist.ToDoListId) {
-        db.Entry(todolist).State = EntityState.Modified;
+          HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, model);
+          response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = model.Id }));
+          return response;
+        } else {
+          return Request.CreateResponse(HttpStatusCode.BadRequest);
+        }
+      }
 
-        try {
-          db.SaveChanges();
-        } catch (DbUpdateConcurrencyException) {
+			public HttpResponseMessage DeleteToDoList(Guid id) {
+        var dbModel = db.Get(id);
+        //var dbModel = db.SingleOrDefault(p => p.Id == id);
+        if (dbModel == null) {
           return Request.CreateResponse(HttpStatusCode.NotFound);
         }
+        db.Delete(dbModel);
 
-        return Request.CreateResponse(HttpStatusCode.OK);
-      } else {
-        return Request.CreateResponse(HttpStatusCode.BadRequest);
+        return Request.CreateResponse(HttpStatusCode.OK, dbModel);
       }
     }
-
-    // POST api/ToDoLists
-    public HttpResponseMessage PostToDoList(ToDoList todolist) {
-      if (ModelState.IsValid) {
-        db.ToDoLists.Add(todolist);
-        db.SaveChanges();
-
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, todolist);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = todolist.ToDoListId }));
-        return response;
-      } else {
-        return Request.CreateResponse(HttpStatusCode.BadRequest);
-      }
-    }
-
-    // DELETE api/ToDoLists/5
-    public HttpResponseMessage DeleteToDoList(int id) {
-      ToDoList todolist = db.ToDoLists.Find(id);
-      if (todolist == null) {
-        return Request.CreateResponse(HttpStatusCode.NotFound);
-      }
-
-      db.ToDoLists.Remove(todolist);
-
-      try {
-        db.SaveChanges();
-      } catch (DbUpdateConcurrencyException) {
-        return Request.CreateResponse(HttpStatusCode.NotFound);
-      }
-
-      return Request.CreateResponse(HttpStatusCode.OK, todolist);
-    }
-
-    protected override void Dispose(bool disposing) {
-      db.Dispose();
-      base.Dispose(disposing);
-    }
-  }
 }

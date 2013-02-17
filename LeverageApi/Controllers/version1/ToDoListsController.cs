@@ -31,7 +31,7 @@ namespace LeverageApi.Controllers.version1 {
 
 
     // GET api/ToDoList/5
-    public ToDoList GetToDoList(int id) {
+    public ToDoList GetToDoList(Guid id) {
       ToDoList todolist = db.ToDoLists.Find(id);
       if (todolist == null) {
         throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -40,8 +40,8 @@ namespace LeverageApi.Controllers.version1 {
     }
 
     // PUT api/ToDoList/5
-    public HttpResponseMessage PutToDoList(int id, ToDoList todolist) {
-      if (ModelState.IsValid && id == todolist.ToDoListId) {
+    public HttpResponseMessage PutToDoList(Guid id, ToDoList todolist) {
+      if (ModelState.IsValid && id == todolist.Id) {
         db.Entry(todolist).State = EntityState.Modified;
 
         try {
@@ -63,7 +63,7 @@ namespace LeverageApi.Controllers.version1 {
         db.SaveChanges();
 
         HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, todolist);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = todolist.ToDoListId }));
+        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = todolist.Id }));
         return response;
       } else {
         return Request.CreateResponse(HttpStatusCode.BadRequest);

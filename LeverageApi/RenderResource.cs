@@ -8,16 +8,16 @@ using DbLayer.Models;
 namespace LeverageApi {
   public class RenderResource<T> {
     
-    T value;
+    T type;
 
     public RenderResource(T t) {
         // The field has the same type as the parameter.
-        this.value = t;
+			this.type = t;
       }
 
     public List<Resource> GetResource() {
 
-      var objectType = this.value.GetType();
+			var objectType = this.type.GetType();
       var properties = objectType.GetProperties();
       var resourceList = new List<Resource>();
       foreach (var property in properties) {

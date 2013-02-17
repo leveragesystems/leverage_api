@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 
@@ -12,6 +13,12 @@ namespace LeverageApi {
 				routeTemplate: "api/{version}/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
+
+			//config.Routes.MapHttpRoute(
+			//	name: "ResourceApi",
+			//	routeTemplate: "api/{version}/{controller}/{resource}"
+			//);
 		}
+		public static string MongoConnectionString = ConfigurationManager.AppSettings["MongoConnectionString"];
 	}
 }

@@ -119,7 +119,6 @@
     <Compile Include="Controllers\version1\PersonController.cs" />
     <Compile Include="Controllers\version1\ToDoListsController.cs" />
     <Compile Include="Controllers\version2\CustomersController.cs" />
-    <Compile Include="Controllers\version2\Default1Controller.cs" />
     <Compile Include="Controllers\version2\ToDoListsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

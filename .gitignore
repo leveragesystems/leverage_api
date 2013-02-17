@@ -1,10 +1,91 @@
-[Bb]in/
+#OS junk files
+[Tt]humbs.db
+*.DS_Store
+
+#Visual Studio files
+*.[Oo]bj
+*.user
+*.aps
+*.cache
+*.pch
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.[Cc]ache
+*.ilk
+*.log
+*.lib
+*.sbr
+*.sdf
+*.opensdf
+*.unsuccessfulbuild
+ipch/
 [Oo]bj/
-/packages/*.*
-/packages/*
-/LeverageApi/bin/DbLayer.exe
-/LeverageApi/bin/DbLayer.pdb
-/LeverageApi/bin/EntityFramework.dll
-/LeverageApi/bin/EntityFramework.xml
-/LeverageApi/[Oo]bj/
-/LeverageApi/obj/*
+[Bb]in
+[Dd]ebug*/
+[Rr]elease*/
+Ankh.NoLoad
+
+#Deployments
+deploy
+deploy/*
+#WebDeploy files
+*.Publish.xml
+
+#Data files
+_DB
+App_Data
+App_Data/*
+
+#MonoDevelop
+*.pidb
+*.userprefs
+
+#Tooling
+_ReSharper*/
+*.resharper
+#Allow ReSharper .DotSettings (for non-namespace-provider properties)
+!*.csproj.DotSettings
+[Tt]est[Rr]esult*
+**/CodeAnalysisLog.xml
+
+#Project files
+[Bb]uild/
+
+#Subversion files
+.svn
+
+# Office Temp Files
+~$*
+
+#NuGet
+packages/
+!NuGet.exe
+
+#ncrunch
+*ncrunch*
+*crunch*.local.xml
+
+# visual studio database projects
+*.dbmdl
+[Ss]ql/
+
+#Test files
+*.testsettings
+
+#Ignore email files delivered to specified pickup directory
+*.eml
+
+#Ignore private folder
+/Private/
+
+#Ignore zipped source from old fashioned cautious developers that do not know any better 
+**.zip
+
+

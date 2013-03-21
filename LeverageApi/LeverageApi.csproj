@@ -144,9 +144,6 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Controllers\version1\packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\DbLayer\DbLayer\DbLayer.csproj">
       <Project>{d2716179-5cd6-4dd4-a27b-1c3743dd6ec3}</Project>
       <Name>DbLayer</Name>
@@ -163,6 +160,9 @@
       <Parameters>&lt;%3fxml version="1.0" encoding="utf-16"%3f&gt;
 &lt;ArrayOfParameterStorage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" /&gt;</Parameters>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

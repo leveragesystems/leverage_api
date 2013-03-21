@@ -19,6 +19,7 @@ namespace LeverageApi {
 			//	routeTemplate: "api/{version}/{controller}/{resource}"
 			//);
 		}
-    public static string MongoConnectionString = ConfigurationManager.ConnectionStrings["MongoConnectionString"].ConnectionString;
+		public static string MongoConnectionString = ConfigurationManager.ConnectionStrings["MongoConnectionString"].ConnectionString;
+        public static string DataBaseName = ConfigurationManager.AppSettings["databaseName"]; // ToDo: Strongly type this stringy appsettings stuff
 	}
 }

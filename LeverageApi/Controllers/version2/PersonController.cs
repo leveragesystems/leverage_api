@@ -12,7 +12,8 @@ namespace LeverageApi.Controllers.version2
     public class PersonController : ApiController
     {
       IRepository<Person, Guid> db = new MongoRepository<Person, Guid>() {
-        ConnectionString = WebApiConfig.MongoConnectionString
+          ConnectionString = WebApiConfig.MongoConnectionString,
+          DataBaseName = WebApiConfig.DataBaseName
       };
 
       // GET api/ToDoList

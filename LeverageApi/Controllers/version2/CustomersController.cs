@@ -19,20 +19,20 @@ namespace LeverageApi.Controllers.version2
 
 				// GET Resource
         public List<Resource> GetResources(string Resource) {
-					RenderResource<Customers> resource = new RenderResource<Customers>(new Customers());
+					RenderResource<Customer> resource = new RenderResource<Customer>(new Customer());
 					// Call the Write method.
 					return resource.GetResource();
         }
 
         // GET api/Customers
-        public IEnumerable<Customers> GetCustomers(){
+        public IEnumerable<Customer> GetCustomers(){
 																	return db.Customers.AsEnumerable();
 			        }
 
         // GET api/Customers/5
-        public Customers GetCustomers(int id)
+        public Customer GetCustomers(int id)
         {
-            Customers customers = db.Customers.Find(id);
+            Customer customers = db.Customers.Find(id);
             if (customers == null)
             {
                 throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
@@ -42,7 +42,7 @@ namespace LeverageApi.Controllers.version2
         }
 
         // PUT api/Customers/5
-        public HttpResponseMessage PutCustomers(int id, Customers customers)
+        public HttpResponseMessage PutCustomers(int id, Customer customers)
         {
             if (ModelState.IsValid && id == customers.CustomersId)
             {
@@ -66,7 +66,7 @@ namespace LeverageApi.Controllers.version2
         }
 
         // POST api/Customers
-        public HttpResponseMessage PostCustomers(Customers customers)
+        public HttpResponseMessage PostCustomers(Customer customers)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace LeverageApi.Controllers.version2
         // DELETE api/Customers/5
         public HttpResponseMessage DeleteCustomers(int id)
         {
-            Customers customers = db.Customers.Find(id);
+            Customer customers = db.Customers.Find(id);
             if (customers == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound);

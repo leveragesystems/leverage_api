@@ -114,9 +114,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\version1\CustomersController.cs" />
+    <Compile Include="Controllers\version1\CustomerController.cs" />
     <Compile Include="Controllers\version1\PersonController.cs" />
-    <Compile Include="Controllers\version1\ToDoListsController.cs" />
+    <Compile Include="Controllers\version1\ToDoListController.cs" />
     <Compile Include="Controllers\version2\UserLoginController.cs" />
     <Compile Include="Controllers\version2\CustomerController.cs" />
     <Compile Include="Controllers\version2\PartyController.cs" />

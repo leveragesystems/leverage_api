@@ -67,7 +67,7 @@ namespace LeverageApi.Controllers.version2
                 db.Create(party);
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, party);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = party.PartyId }));
+                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = party.Id }));
                 return response;
             }
             else
@@ -92,7 +92,7 @@ namespace LeverageApi.Controllers.version2
 
         protected override void Dispose(bool disposing)
         {
-            db.Dispose();
+            //db.Dispose();
             base.Dispose(disposing);
         }
     }

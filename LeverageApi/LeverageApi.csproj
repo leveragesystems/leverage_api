@@ -117,7 +117,9 @@
     <Compile Include="Controllers\version1\CustomersController.cs" />
     <Compile Include="Controllers\version1\PersonController.cs" />
     <Compile Include="Controllers\version1\ToDoListsController.cs" />
-    <Compile Include="Controllers\version2\CustomersController.cs" />
+    <Compile Include="Controllers\version2\UserLoginController.cs" />
+    <Compile Include="Controllers\version2\CustomerController.cs" />
+    <Compile Include="Controllers\version2\PartyController.cs" />
     <Compile Include="Controllers\version2\PersonController.cs" />
     <Compile Include="Controllers\version2\ToDoListsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -144,7 +146,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="CodeTemplates\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DbLayer\DbLayer\DbLayer.csproj">

@@ -42,11 +42,11 @@ namespace LeverageApi.Controllers.version2
         }
 
         // PUT api/Customers/5
-        public HttpResponseMessage PutCustomers(int id, Customer customers)
+        public HttpResponseMessage PutCustomers(Guid id, Customer customer)
         {
-            if (ModelState.IsValid && id == customers.CustomersId)
+            if (ModelState.IsValid && id == customer.CustomerId)
             {
-                db.Entry(customers).State = EntityState.Modified;
+                db.Entry(customer).State = EntityState.Modified;
 
                 try
                 {
@@ -74,7 +74,7 @@ namespace LeverageApi.Controllers.version2
                 db.SaveChanges();
 
                 HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customers);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customers.CustomersId }));
+                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customers.CustomerId }));
                 return response;
             }
             else

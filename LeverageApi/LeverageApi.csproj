@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="CodeTemplates\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Controllers\version1\packages.config" />

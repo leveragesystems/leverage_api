@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using DbLayer.Models;
 
 namespace LeverageApi {
-  public class RenderResource<T> {
+  public class RenderResource<T> where T : new() {
     
     T type;
 

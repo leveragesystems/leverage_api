@@ -13,7 +13,7 @@ using DbLayer.Context;
 
 namespace LeverageApi.Controllers.version2
 {
-    public class CustomersController : ApiController
+    public class CustomerController : ApiController
     {
         private SQLContext db = new SQLContext();
 

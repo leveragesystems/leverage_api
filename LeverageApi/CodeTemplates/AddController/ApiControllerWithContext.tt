@@ -41,8 +41,9 @@ namespace <#= Model.Namespace #>
 #>
     public class <#= Model.ControllerName #> : ApiController
     {
-        private <#= Model.ContextType.Name #> db = new <#= Model.ContextType.Name #>();
-
+        MongoRepository<ToDoList, Guid> db = new MongoRepository<ToDoList, Guid>() {
+			ConnectionString = WebApiConfig.MongoConnectionString
+		};
 				// GET Resource
         public List<Resource> GetResources(string Resource) {
 					RenderResource<<#= modelName #>> resource = new RenderResource<<#= modelName #>>(new <#= modelName #>());
@@ -74,7 +75,7 @@ namespace <#= Model.Namespace #>
 <# if(isObjectContext) { #>
             <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Single(<#= lambdaVar #> => <#= lambdaVar #>.<#= primaryKey.Name #> == id);
 <# } else { #>
-            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Find(id);
+            <#= modelName #> <#= modelVariable #> = db.<#= entitySetName #>.Get(id);
 <# } #>
             if (<#= modelVariable #> == null)
             {

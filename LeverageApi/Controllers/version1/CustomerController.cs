@@ -12,7 +12,7 @@ using DbLayer.Models;
 using DbLayer.Context;
 
 namespace LeverageApi.Controllers.version1 {
-  public class CustomersController : ApiController {
+  public class CustomerController : ApiController {
     private SQLContext db = new SQLContext();
 
     // GET Resource
@@ -22,24 +22,24 @@ namespace LeverageApi.Controllers.version1 {
       return resource.GetResource();
     }
 
-    // GET api/Customer
+    // GET api/Customers
     public IEnumerable<Customer> GetCustomers() {
       return db.Customers.AsEnumerable();
     }
 
-    // GET api/Customer/5
+    // GET api/Customers/5
     public Customer GetCustomers(int id) {
-      Customer customer = db.Customers.Find(id);
-      if (customer == null) {
+      Customer customers = db.Customers.Find(id);
+      if (customers == null) {
         throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
       }
 
-      return customer;
+      return customers;
     }
 
-    // PUT api/Customer/5
-    public HttpResponseMessage PutCustomers(int id, Customer customer) {
-      if (ModelState.IsValid && id == customer.CustomersId) {
+    // PUT api/Customers/5
+    public HttpResponseMessage PutCustomers(Guid id, Customer customer) {
+      if (ModelState.IsValid && id == customer.Id) {
         db.Entry(customer).State = EntityState.Modified;
 
         try {
@@ -54,28 +54,28 @@ namespace LeverageApi.Controllers.version1 {
       }
     }
 
-    // POST api/Customer
+    // POST api/Customers
     public HttpResponseMessage PostCustomers(Customer customer) {
       if (ModelState.IsValid) {
         db.Customers.Add(customer);
         db.SaveChanges();
 
         HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customer);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.CustomersId }));
+        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customer.Id }));
         return response;
       } else {
         return Request.CreateResponse(HttpStatusCode.BadRequest);
       }
     }
 
-    // DELETE api/Customer/5
+    // DELETE api/Customers/5
     public HttpResponseMessage DeleteCustomers(int id) {
-      Customer customer = db.Customers.Find(id);
-      if (customer == null) {
+      Customer customers = db.Customers.Find(id);
+      if (customers == null) {
         return Request.CreateResponse(HttpStatusCode.NotFound);
       }
 
-      db.Customers.Remove(customer);
+      db.Customers.Remove(customers);
 
       try {
         db.SaveChanges();
@@ -83,7 +83,7 @@ namespace LeverageApi.Controllers.version1 {
         return Request.CreateResponse(HttpStatusCode.NotFound);
       }
 
-      return Request.CreateResponse(HttpStatusCode.OK, customer);
+      return Request.CreateResponse(HttpStatusCode.OK, customers);
     }
 
     protected override void Dispose(bool disposing) {

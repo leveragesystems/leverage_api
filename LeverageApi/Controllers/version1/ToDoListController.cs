@@ -12,7 +12,7 @@ using DbLayer.Models;
 using DbLayer.Context;
 
 namespace LeverageApi.Controllers.version1 {
-  public class ToDoListsController : ApiController {
+  public class ToDoListController : ApiController {
     private SQLContext db = new SQLContext();
 
     //public dynamic GetToDoLists_Resource() {

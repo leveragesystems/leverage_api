@@ -39,7 +39,7 @@ namespace LeverageApi.Controllers.version1 {
 
     // PUT api/Customers/5
     public HttpResponseMessage PutCustomers(Guid id, Customer customer) {
-      if (ModelState.IsValid && id == customer.Id) {
+      if (ModelState.IsValid && id == customer.CustomersId) {
         db.Entry(customer).State = EntityState.Modified;
 
         try {

@@ -14,6 +14,12 @@ namespace LeverageApi {
         defaults: new { id = RouteParameter.Optional }
       );
 
+      config.Routes.MapHttpRoute(
+        name: "OneLevelNested",
+        routeTemplate: "api/{version}/{controller}/{id}/action/{userLoginId}",
+        defaults: new { id = RouteParameter.Optional }
+      );
+
       //config.Routes.MapHttpRoute(
       //	name: "ResourceApi",
       //	routeTemplate: "api/{version}/{controller}/{resource}"

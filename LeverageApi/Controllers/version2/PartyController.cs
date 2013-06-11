@@ -27,6 +27,8 @@ namespace LeverageApi.Controllers.version2 {
 
     // GET <#= routePrefix #>
     public IEnumerable<Party> GetPartys() {
+      Seed s = new Seed();
+      s.Create();
       return db.Get();
     }
 
@@ -39,6 +41,17 @@ namespace LeverageApi.Controllers.version2 {
 
       return party;
     }
+
+    // GET <#= routePrefix #>/5
+    public Party GetParty(Guid id, Guid userLoginId) {
+      Party party = db.Get(id);
+      if (party == null) {
+        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+      }
+
+      return party;
+    }
+
 
     // PUT <#= routePrefix #>/5
     public HttpResponseMessage PutParty(Guid id, Party party) {

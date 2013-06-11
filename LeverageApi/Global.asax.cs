@@ -22,6 +22,13 @@ namespace LeverageApi {
 			GlobalConfiguration.Configuration.Services.Replace(typeof(IHttpControllerSelector),
 																												new RouteVersionedControllerSelector(GlobalConfiguration.Configuration));
 
+      //Read http://chimera.labs.oreilly.com/books/1234000001708/ch08.html#fig_ch11_controllerpipeline, to undersatnd filters!
+      GlobalConfiguration.Configuration.Filters.Add(new Filter.UnhandledFilterAttibute());
+      GlobalConfiguration.Configuration.Filters.Add(new Filter.ApiAuthorization());
+      GlobalConfiguration.Configuration.Filters.Add(new Filter.CacheActionFilter());
+      GlobalConfiguration.Configuration.Filters.Add(new Filter.VerifyModelStateActionFilter());
+
+
 			AreaRegistration.RegisterAllAreas();
 
 			WebApiConfig.Register(GlobalConfiguration.Configuration);

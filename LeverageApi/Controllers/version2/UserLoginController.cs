@@ -22,7 +22,7 @@ namespace LeverageApi.Controllers.version2
     };
 				// GET Resource
         public List<Resource> GetResources(string Resource) {
-					RenderResource<UserLogin> resource = new RenderResource<UserLogin>(new UserLogin());
+					var resource = new RenderResource<UserLogin>(new UserLogin());
 					// Call the Write method.
 					return resource.GetResource();
         }
@@ -43,6 +43,17 @@ namespace LeverageApi.Controllers.version2
 
             return UserLogin;
         }
+
+        // GET <#= routePrefix #>/5
+        public UserLogin GetPartyUserLogin(Guid partyId, Guid id) {
+          UserLogin UserLogin = db.Get(id);
+          if (UserLogin == null) {
+            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+          }
+
+          return UserLogin;
+        }
+
 
         // PUT <#= routePrefix #>/5
         public HttpResponseMessage PutUserLogin(Guid id, UserLogin UserLogin)

@@ -16,7 +16,6 @@ namespace LeverageApi {
       }
 
     public List<Resource> GetResource() {
-
 			var objectType = this.type.GetType();
       var properties = objectType.GetProperties();
       var resourceList = new List<Resource>();

@@ -19,7 +19,7 @@ namespace LeverageApi.Controllers.version2
 
 				// GET Resource
         public List<Resource> GetResources(string Resource) {
-					RenderResource<Customer> resource = new RenderResource<Customer>(new Customer());
+					var resource = new RenderResource<Customer>(new Customer());
 					// Call the Write method.
 					return resource.GetResource();
         }

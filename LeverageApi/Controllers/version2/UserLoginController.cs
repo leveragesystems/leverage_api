@@ -106,5 +106,17 @@ namespace LeverageApi.Controllers.version2
             //db.Dispose();
             base.Dispose(disposing);
         }
+
+
+        // GET <#= routePrefix #>/5
+        public UserLogin GetUserLogin(String username, String password) {
+          UserLogin UserLogin = db.SearchFor(id);
+          if (UserLogin == null) {
+            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
+          }
+
+          return UserLogin;
+        }
+
     }
 }

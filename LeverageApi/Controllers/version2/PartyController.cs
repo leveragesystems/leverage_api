@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -11,87 +12,43 @@ using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Context;
 using DbLayer.Repositories;
+using System.Threading.Tasks;
 
-namespace LeverageApi.Controllers.version2 {
-  public class PartyController : ApiController {
-    MongoRepository<Party, Guid> db = new MongoRepository<Party, Guid>() {
-      ConnectionString = WebApiConfig.MongoConnectionString,
-      DataBaseName = WebApiConfig.DataBaseName
-    };
-    // GET Resource
-    public List<Resource> GetResources(string Resource) {
-      RenderResource<Party> resource = new RenderResource<Party>(new Party());
-      // Call the Write method.
-      return resource.GetResource();
+namespace LeverageApi.Controllers.Version2 {
+    public class PartyController : RavenDbController {
+
+        // GET Party Resource
+        public List<Resource> GetResources(string Resource) {
+            var resource = new RenderResource<Party>(new Party());
+            return resource.GetResource();
+        }
+
+        public IEnumerable<Party> Get() {
+            return Session.Query<Party>();
+        }
+
+        public Task<Party> GetById(Guid id) {
+            var entity = Session.LoadAsync<Party>(id);
+            return entity;
+        }
+
+        public async Task<HttpResponseMessage> Post(Party party) {
+            await Session.StoreAsync(party);
+            return Request.CreateResponse(HttpStatusCode.Created, party);
+        }
+
+        public async Task<HttpResponseMessage> Put(Guid id, Party party) {
+            await Session.StoreAsync(party);
+            return Request.CreateResponse(HttpStatusCode.Created, party);
+        }
+
+        public HttpResponseMessage Delete(Guid id) {
+            Party entity = Session.LoadAsync<Party>(id).Result;
+            if (entity == null) {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            Session.Delete<Party>(entity);
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
+        }
     }
-
-    // GET <#= routePrefix #>
-    public IEnumerable<Party> GetPartys() {
-      Seed s = new Seed();
-      s.Create();
-      return db.Get();
-    }
-
-    // GET <#= routePrefix #>/5
-    public Party GetParty(Guid id) {
-      Party party = db.Get(id);
-      if (party == null) {
-        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-      }
-
-      return party;
-    }
-
-    // GET <#= routePrefix #>/5
-    public Party GetParty(Guid id, Guid userLoginId) {
-      Party party = db.Get(id);
-      if (party == null) {
-        throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-      }
-
-      return party;
-    }
-
-
-    // PUT <#= routePrefix #>/5
-    public HttpResponseMessage PutParty(Guid id, Party party) {
-      if (ModelState.IsValid) {
-        db.Update(id, party);
-
-        return Request.CreateResponse(HttpStatusCode.OK);
-      }
-
-      return Request.CreateResponse(HttpStatusCode.BadRequest);
-    }
-
-    // POST <#= routePrefix #>
-    public HttpResponseMessage PostParty(Party party) {
-      if (ModelState.IsValid) {
-        db.Create(party);
-
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, party);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = party.Id }));
-        return response;
-      } else {
-        return Request.CreateResponse(HttpStatusCode.BadRequest);
-      }
-    }
-
-    // DELETE <#= routePrefix #>/5
-    public HttpResponseMessage DeleteParty(Guid id) {
-      Party party = db.Get(id);
-      if (party == null) {
-        return Request.CreateResponse(HttpStatusCode.NotFound);
-      }
-
-      db.Delete(party);
-
-      return Request.CreateResponse(HttpStatusCode.OK, party);
-    }
-
-    protected override void Dispose(bool disposing) {
-      //db.Dispose();
-      base.Dispose(disposing);
-    }
-  }
 }

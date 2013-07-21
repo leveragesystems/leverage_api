@@ -11,111 +11,46 @@ using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Context;
 using DbLayer.Repositories;
+using Raven.Client;
+using System.Threading.Tasks;
 
-namespace LeverageApi.Controllers.version2
+namespace LeverageApi.Controllers.Version2
 {
-    public class UserLoginController : ApiController
+    public class UserLoginController : RavenDbController
     {
-      MongoRepository<UserLogin, Guid> db = new MongoRepository<UserLogin, Guid>() {
-      ConnectionString = WebApiConfig.MongoConnectionString,
-      DataBaseName = WebApiConfig.DataBaseName
-    };
-				// GET Resource
+
+        // GET UserLogin Resource
         public List<Resource> GetResources(string Resource) {
-					var resource = new RenderResource<UserLogin>(new UserLogin());
-					// Call the Write method.
-					return resource.GetResource();
+            var resource = new RenderResource<UserLogin>(new UserLogin());
+            return resource.GetResource();
         }
 
-        // GET <#= routePrefix #>
-        public IEnumerable<UserLogin> GetUserLogins(){
-				 return db.Get();
+        public IEnumerable<UserLogin> Get() {
+            return Session.Query<UserLogin>();
         }
 
-        // GET <#= routePrefix #>/5
-        public UserLogin GetUserLogin(Guid id)
-        {
-            UserLogin UserLogin = db.Get(id);
-            if (UserLogin == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-            return UserLogin;
+        public Task<UserLogin> GetById(Guid id) {
+            var entity = Session.LoadAsync<UserLogin>(id);
+            return entity;
         }
 
-        // GET <#= routePrefix #>/5
-        public UserLogin GetPartyUserLogin(Guid partyId, Guid id) {
-          UserLogin UserLogin = db.Get(id);
-          if (UserLogin == null) {
-            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-          }
-
-          return UserLogin;
+        public async Task<HttpResponseMessage> Post(UserLogin userLogin) {
+            await Session.StoreAsync(userLogin);
+            return Request.CreateResponse(HttpStatusCode.Created, userLogin);
         }
 
-
-        // PUT <#= routePrefix #>/5
-        public HttpResponseMessage PutUserLogin(Guid id, UserLogin UserLogin)
-        {
-            if (ModelState.IsValid)
-            {
-              db.Update(id, UserLogin);
-
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+        public async Task<HttpResponseMessage> Put(Guid id, UserLogin userLogin) {
+            await Session.StoreAsync(userLogin);
+            return Request.CreateResponse(HttpStatusCode.Created, userLogin);
         }
 
-        // POST <#= routePrefix #>
-        public HttpResponseMessage PostUserLogin(UserLogin UserLogin)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Create(UserLogin);
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, UserLogin);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = UserLogin.Id }));
-                return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
-        }
-
-        // DELETE <#= routePrefix #>/5
-        public HttpResponseMessage DeleteUserLogin(Guid id)
-        {
-            UserLogin UserLogin = db.Get(id);
-            if (UserLogin == null)
-            {
+        public HttpResponseMessage Delete(Guid id) {
+            UserLogin entity = Session.LoadAsync<UserLogin>(id).Result;
+            if (entity == null) {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-
-            db.Delete(UserLogin);
-
-            return Request.CreateResponse(HttpStatusCode.OK, UserLogin);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            //db.Dispose();
-            base.Dispose(disposing);
-        }
-
-
-        // GET <#= routePrefix #>/5
-        public UserLogin GetUserLogin(String username, String password) {
-          UserLogin UserLogin = db.SearchFor(id);
-          if (UserLogin == null) {
-            throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-          }
-
-          return UserLogin;
+            Session.Delete<UserLogin>(entity);
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
 
     }

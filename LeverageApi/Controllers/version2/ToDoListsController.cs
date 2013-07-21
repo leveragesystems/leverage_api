@@ -11,54 +11,43 @@ using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Context;
 using DbLayer.Repositories;
+using System.Threading.Tasks;
 
-namespace LeverageApi.Controllers.version2 {
-  public class ToDoListsController : ApiController {
+namespace LeverageApi.Controllers.Version2 {
+  public class ToDoListsController : RavenDbController {
 
-    MongoRepository<ToDoList, Guid> db = new MongoRepository<ToDoList, Guid>() {
-      ConnectionString = WebApiConfig.MongoConnectionString,
-      DataBaseName = WebApiConfig.DataBaseName
-    };
-
-    // GET Resource
-    public List<Resource> GetResources(string Resource) {
-      RenderResource<ToDoList> resource = new RenderResource<ToDoList>(new ToDoList());
-      // Call the Write method.
-      return resource.GetResource();
-    }
-
-    // GET api/ToDoList
-    public IEnumerable<ToDoList> GetToDoLists() {
-      return db.Get();
-    }
-
-
-    // GET api/ToDoList/5
-    public ToDoList GetToDoList(Guid id) {
-      return db.Get(id);
-    }
-
-    public HttpResponseMessage PostToDoList(ToDoList model) {
-      if (ModelState.IsValid) {
-        db.Create(model);
-
-        HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, model);
-        response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = model.Id }));
-        return response;
-      } else {
-        return Request.CreateResponse(HttpStatusCode.BadRequest);
+      // GET ToDoList Resource
+      public List<Resource> GetResources(string Resource) {
+          var resource = new RenderResource<ToDoList>(new ToDoList());
+          return resource.GetResource();
       }
-    }
 
-    public HttpResponseMessage DeleteToDoList(Guid id) {
-      var dbModel = db.Get(id);
-      //var dbModel = db.SingleOrDefault(p => p.Id == id);
-      if (dbModel == null) {
-        return Request.CreateResponse(HttpStatusCode.NotFound);
+      public IEnumerable<ToDoList> Get() {
+          return Session.Query<ToDoList>();
       }
-      db.Delete(dbModel);
 
-      return Request.CreateResponse(HttpStatusCode.OK, dbModel);
-    }
+      public Task<ToDoList> GetById(Guid id) {
+          var entity = Session.LoadAsync<ToDoList>(id);
+          return entity;
+      }
+
+      public async Task<HttpResponseMessage> Post(ToDoList toDoList) {
+          await Session.StoreAsync(toDoList);
+          return Request.CreateResponse(HttpStatusCode.Created, toDoList);
+      }
+
+      public async Task<HttpResponseMessage> Put(Guid id, ToDoList toDoList) {
+          await Session.StoreAsync(toDoList);
+          return Request.CreateResponse(HttpStatusCode.Created, toDoList);
+      }
+
+      public HttpResponseMessage Delete(Guid id) {
+          ToDoList entity = Session.LoadAsync<ToDoList>(id).Result;
+          if (entity == null) {
+              return Request.CreateResponse(HttpStatusCode.NotFound);
+          }
+          Session.Delete<ToDoList>(entity);
+          return Request.CreateResponse(HttpStatusCode.OK, entity);
+      }
   }
 }

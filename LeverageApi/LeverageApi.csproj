@@ -58,10 +58,17 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Raven.Abstractions">
+      <HintPath>..\packages\RavenDB.Client.2.0.2375\lib\net40\Raven.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Raven.Client.Lightweight">
+      <HintPath>..\packages\RavenDB.Client.2.0.2375\lib\net40\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
     <Reference Include="SDammann.WebApi.Versioning">
       <HintPath>..\packages\SDammann.WebApi.Versioning.1.4.0.0\lib\net40\SDammann.WebApi.Versioning.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
@@ -124,14 +131,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\version1\CustomerController.cs" />
-    <Compile Include="Controllers\version1\PersonController.cs" />
-    <Compile Include="Controllers\version1\ToDoListController.cs" />
-    <Compile Include="Controllers\version2\UserLoginController.cs" />
-    <Compile Include="Controllers\version2\CustomerController.cs" />
-    <Compile Include="Controllers\version2\PartyController.cs" />
-    <Compile Include="Controllers\version2\PersonController.cs" />
-    <Compile Include="Controllers\version2\ToDoListsController.cs" />
+    <Compile Include="Controllers\Version2\UserLoginController.cs" />
+    <Compile Include="Controllers\Version2\CustomerController.cs" />
+    <Compile Include="Controllers\Version2\PartyController.cs" />
+    <Compile Include="Controllers\Version2\PersonController.cs" />
+    <Compile Include="Controllers\Version2\ToDoListsController.cs" />
     <Compile Include="Filter\ApiAuthorization.cs" />
     <Compile Include="Filter\VerifyModelStateActionFilter .cs" />
     <Compile Include="Filter\CacheActionFilter.cs" />
@@ -141,8 +145,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controllers\RavenDbController.cs" />
     <Compile Include="RenderResource.cs" />
-    <Compile Include="Seed.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />

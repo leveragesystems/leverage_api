@@ -6,54 +6,45 @@ using System.Net.Http;
 using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Repositories;
+using System.Threading.Tasks;
 
 namespace LeverageApi.Controllers.version2
 {
-    public class PersonController : ApiController
+    public class PersonController : RavenDbController
     {
-      IRepository<Person, Guid> db = new MongoRepository<Person, Guid>() {
-          ConnectionString = WebApiConfig.MongoConnectionString,
-          DataBaseName = WebApiConfig.DataBaseName
-      };
 
-      // GET api/ToDoList
-      public IEnumerable<Person> GetPeople() {
-        return db.Get();
-      }
-
-      public List<Resource> GetResources(string Resource) {
-        RenderResource<Person> resource = new RenderResource<Person>(new Person());
-        // Call the Write method.
-        return resource.GetResource();
-      }
-
-
-      // GET api/ToDoList/5
-      public Person GetPerson(Guid id) {
-        return db.Get(id);
-      }
-
-      public HttpResponseMessage PostPerson(Person model) {
-        if (ModelState.IsValid) {
-          db.Create(model);
-
-          HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, model);
-          response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = model.Id }));
-          return response;
-        } else {
-          return Request.CreateResponse(HttpStatusCode.BadRequest);
+        // GET Person Resource
+        public List<Resource> GetResources(string Resource) {
+            var resource = new RenderResource<Person>(new Person());
+            return resource.GetResource();
         }
-      }
 
-      public HttpResponseMessage DeletePerson(Guid id) {
-        var dbModel = db.Get(id);
-        //var dbModel = db.SingleOrDefault(p => p.Id == id);
-        if (dbModel == null) {
-          return Request.CreateResponse(HttpStatusCode.NotFound);
+        public IEnumerable<Person> Get() {
+            return Session.Query<Person>();
         }
-        db.Delete(dbModel);
 
-        return Request.CreateResponse(HttpStatusCode.OK, dbModel);
-      }
+        public Task<Person> GetById(Guid id) {
+            var entity = Session.LoadAsync<Person>(id);
+            return entity;
+        }
+
+        public async Task<HttpResponseMessage> Post(Person person) {
+            await Session.StoreAsync(person);
+            return Request.CreateResponse(HttpStatusCode.Created, person);
+        }
+
+        public async Task<HttpResponseMessage> Put(Guid id, Person person) {
+            await Session.StoreAsync(person);
+            return Request.CreateResponse(HttpStatusCode.Created, person);
+        }
+
+        public HttpResponseMessage Delete(Guid id) {
+            Person entity = Session.LoadAsync<Person>(id).Result;
+            if (entity == null) {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+            Session.Delete<Person>(entity);
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
+        }
     }
 }

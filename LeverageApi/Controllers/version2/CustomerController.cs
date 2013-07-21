@@ -10,106 +10,46 @@ using System.Web;
 using System.Web.Http;
 using DbLayer.Models;
 using DbLayer.Context;
+using System.Threading.Tasks;
 
-namespace LeverageApi.Controllers.version2
+namespace LeverageApi.Controllers.Version2
 {
-    public class CustomerController : ApiController
-    {
-        private SQLContext db = new SQLContext();
+    public class CustomerController : RavenDbController {
 
-				// GET Resource
+        // GET Resource
         public List<Resource> GetResources(string Resource) {
-					var resource = new RenderResource<Customer>(new Customer());
-					// Call the Write method.
-					return resource.GetResource();
+            var resource = new RenderResource<Customer>(new Customer());
+            return resource.GetResource();
         }
 
-        // GET api/Customers
-        public IEnumerable<Customer> GetCustomers(){
-																	return db.Customers.AsEnumerable();
-			        }
-
-        // GET api/Customers/5
-        public Customer GetCustomers(int id)
-        {
-            Customer customers = db.Customers.Find(id);
-            if (customers == null)
-            {
-                throw new HttpResponseException(Request.CreateResponse(HttpStatusCode.NotFound));
-            }
-
-            return customers;
+        public IEnumerable<Customer> Get() {
+            return Session.Query<Customer>();
         }
 
-        // PUT api/Customers/5
-        public HttpResponseMessage PutCustomers(Guid id, Customer customer)
-        {
-          if (ModelState.IsValid && id == customer.Id)
-            {
-                db.Entry(customer).State = EntityState.Modified;
-
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return Request.CreateResponse(HttpStatusCode.NotFound);
-                }
-
-                return Request.CreateResponse(HttpStatusCode.OK);
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+        // GET <#= routePrefix #>
+        public Task<Customer> GetById(Guid id) {
+            var entity = Session.LoadAsync<Customer>(id);
+            return entity;
         }
 
-        // POST api/Customers
-        public HttpResponseMessage PostCustomers(Customer customers)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Customers.Add(customers);
-                db.SaveChanges();
-
-                HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.Created, customers);
-                response.Headers.Location = new Uri(Url.Link("DefaultApi", new { id = customers.Id }));
-                return response;
-            }
-            else
-            {
-                return Request.CreateResponse(HttpStatusCode.BadRequest);
-            }
+        public async Task<HttpResponseMessage> Post(Customer customer) {
+            await Session.StoreAsync(customer);
+            return Request.CreateResponse(HttpStatusCode.Created, customer);
         }
 
-        // DELETE api/Customers/5
-        public HttpResponseMessage DeleteCustomers(int id)
-        {
-            Customer customers = db.Customers.Find(id);
-            if (customers == null)
-            {
+        public async Task<HttpResponseMessage> Put(Guid id, Customer customer) {
+            await Session.StoreAsync(customer);
+            return Request.CreateResponse(HttpStatusCode.Created, customer);
+        }
+
+        public HttpResponseMessage Delete(Guid id) {
+            Customer entity = Session.LoadAsync<Customer>(id).Result;
+            if (entity == null) {
                 return Request.CreateResponse(HttpStatusCode.NotFound);
             }
-
-            db.Customers.Remove(customers);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound);
-            }
-
-            return Request.CreateResponse(HttpStatusCode.OK, customers);
+            Session.Delete<Customer>(entity);
+            return Request.CreateResponse(HttpStatusCode.OK, entity);
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
-        }
     }
 }

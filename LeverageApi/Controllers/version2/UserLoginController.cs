@@ -14,10 +14,8 @@ using DbLayer.Repositories;
 using Raven.Client;
 using System.Threading.Tasks;
 
-namespace LeverageApi.Controllers.Version2
-{
-    public class UserLoginController : RavenDbController
-    {
+namespace LeverageApi.Controllers.Version2 {
+    public class UserLoginController : RavenDbController {
 
         // GET UserLogin Resource
         public List<Resource> GetResources(string Resource) {

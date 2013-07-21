@@ -26,7 +26,7 @@ namespace LeverageApi {
         private static readonly Lazy<IDocumentStore> LazyDocStore = new Lazy<IDocumentStore>(() => {
             var docStore = new DocumentStore {
                 Url = "http://localhost:8080",
-                DefaultDatabase = "WebApiSample"
+                DefaultDatabase = "WebApi"
             };
 
             docStore.Initialize();

@@ -28,9 +28,13 @@ namespace LeverageApi {
         // Saving changes using the session API
         using (IDocumentSession session = documentStore.OpenSession()) {
             // Operations against session
+
+            Party p = new Party();
             UserLogin userLogin = new UserLogin();
-            userLogin.Username = "dev";
-            userLogin.Password = "dev";
+            userLogin.Username = "dev1";
+            userLogin.Password = "dev1";
+            userLogin.party = p;
+            session.Store(p);
             session.Store(userLogin);
             // Flush those changes
             session.SaveChanges();

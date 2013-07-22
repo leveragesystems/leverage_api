@@ -9,7 +9,6 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using DbLayer.Models;
-using DbLayer.Context;
 using DbLayer.Repositories;
 using Raven.Client;
 using System.Threading.Tasks;
